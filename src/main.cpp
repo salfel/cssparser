@@ -9,6 +9,7 @@ std::string readFile(std::string path) {
 	std::ifstream file(path, std::ios::binary);
 
 	if (!file.is_open()) {
+		std::println("Could not open file");
 		return "";
 	}
 
