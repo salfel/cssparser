@@ -1,0 +1,10 @@
+[[windows]]
+name = "Editor"
+cmd = ["nix develop -c nvim"]
+
+[[windows]]
+name = "Git"
+cmd = ["lazygit"]
+
+[[windows]]
+name = "Terminal"

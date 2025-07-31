@@ -1,0 +1,11 @@
+box {
+    some-value: 1;
+}
+
+.class {
+    some-value: 1;
+}
+
+#id {
+    some-value: 1;
+}
