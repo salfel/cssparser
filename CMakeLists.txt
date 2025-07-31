@@ -9,15 +9,27 @@ set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(deps REQUIRED IMPORTED_TARGET)
-
 file(GLOB_RECURSE SRCFILES "src/*.cpp")
+file(GLOB_RECURSE HEADERFILES "src/*.cpp")
 
-add_executable(cssparser ${SRCFILES})
-target_include_directories(cssparser PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+add_library(cssparser SHARED ${SRCFILES})
 
-target_link_libraries(cssparser PRIVATE PkgConfig::deps)
-target_include_directories(cssparser PRIVATE include)
+target_include_directories(
+  cssparser PUBLIC $<INSTALL_INTERFACE:include>
+                   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 
-install(TARGETS cssparser)
+include(GNUInstallDirs)
+
+configure_file(cssparser.pc.in cssparser.pc @ONLY)
+
+install(
+  TARGETS cssparser
+  EXPORT cssparser-targets
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/cssparser)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cssparser.pc
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)

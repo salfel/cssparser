@@ -23,28 +23,3 @@ std::vector<Selector> parseCSS(std::string filePath) {
 	auto tokens = tokenize(str);
 	return parseTokens(tokens);
 }
-
-int main() {
-	auto selectors = parseCSS("test.css");
-
-	for (auto &selector : selectors) {
-		std::println("name: {}", selector.name);
-		switch (selector.type) {
-		case CLASS:
-			std::println("type: class");
-			break;
-		case ID:
-			std::println("type: id");
-			break;
-		case ELEMENT:
-			std::println("type: element");
-			break;
-		}
-
-		for (auto &[key, value] : selector.properties) {
-			std::println("key: {}, value: {}", key, value);
-		}
-	}
-
-	return 0;
-}
